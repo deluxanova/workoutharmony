@@ -100,7 +100,7 @@ const Index = () => {
                     ))}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {workout.exercises.length} exercises • {workout.duration} min
+                    {workout.exerciseCount} exercises
                   </p>
                 </CardContent>
               </Card>
