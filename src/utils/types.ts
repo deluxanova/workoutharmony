@@ -56,3 +56,12 @@ export interface WorkoutSummary {
   lastPerformed?: string;
   tags: string[];
 }
+
+export interface WeightRecord {
+  id: string;
+  date: Date;
+  weight: number;
+  notes?: string;
+}
+
+export type TimePeriod = "daily" | "weekly" | "monthly" | "bimonthly";

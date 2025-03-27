@@ -10,6 +10,7 @@ import { Layout } from "./components/Layout";
 import WorkoutDetail from "./pages/WorkoutDetail";
 import CreateWorkout from "./pages/CreateWorkout";
 import Progress from "./pages/Progress";
+import WeightTracking from "./pages/WeightTracking";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/workout/:id" element={<WorkoutDetail />} />
             <Route path="/create" element={<CreateWorkout />} />
             <Route path="/progress" element={<Progress />} />
+            <Route path="/weight" element={<WeightTracking />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
