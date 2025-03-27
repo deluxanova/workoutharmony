@@ -1,6 +1,6 @@
 
 import { NavLink } from 'react-router-dom';
-import { Activity, BarChart, Dumbbell } from 'lucide-react';
+import { Activity, BarChart, Dumbbell, Scale } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export const Navbar = () => {
@@ -22,7 +22,17 @@ export const Navbar = () => {
               }
               end
             >
-              Workouts
+              Home
+            </NavLink>
+            <NavLink 
+              to="/weight" 
+              className={({ isActive }) => 
+                cn("text-sm font-medium transition-colors hover:text-primary", 
+                  isActive ? "text-primary" : "text-muted-foreground"
+                )
+              }
+            >
+              Weight
             </NavLink>
             <NavLink 
               to="/progress" 
@@ -58,6 +68,17 @@ export const Navbar = () => {
           >
             <Dumbbell className="w-5 h-5 mb-1" />
             <span>Workouts</span>
+          </NavLink>
+          <NavLink 
+            to="/weight" 
+            className={({ isActive }) => 
+              cn("flex flex-col items-center py-2 px-4 text-xs font-medium transition-colors", 
+                isActive ? "text-primary" : "text-muted-foreground"
+              )
+            }
+          >
+            <Scale className="w-5 h-5 mb-1" />
+            <span>Weight</span>
           </NavLink>
           <NavLink 
             to="/progress" 
