@@ -1,25 +1,36 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { CalendarIcon, Plus } from 'lucide-react';
+import { CalendarIcon, Plus, Edit } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { WeightRecord } from '@/utils/types';
 
 interface WeightInputProps {
   onAddWeight: (date: Date, weight: number, notes?: string) => void;
+  editingRecord?: WeightRecord | null;
 }
 
-export const WeightInput: React.FC<WeightInputProps> = ({ onAddWeight }) => {
+export const WeightInput: React.FC<WeightInputProps> = ({ onAddWeight, editingRecord }) => {
   const [weight, setWeight] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [date, setDate] = useState<Date>(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
+  
+  // Effect to populate form when editingRecord changes
+  useEffect(() => {
+    if (editingRecord) {
+      setWeight(editingRecord.weight.toString());
+      setDate(editingRecord.date);
+      setNotes(editingRecord.notes || '');
+    }
+  }, [editingRecord]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,14 +43,19 @@ export const WeightInput: React.FC<WeightInputProps> = ({ onAddWeight }) => {
     const weightValue = parseFloat(weight);
     
     onAddWeight(date, weightValue, notes || undefined);
-    setWeight('');
-    setNotes('');
-    toast.success('Weight recorded successfully!');
+    
+    // Only clear the form if not editing
+    if (!editingRecord) {
+      setWeight('');
+      setNotes('');
+    }
+    
+    toast.success(editingRecord ? 'Weight updated successfully!' : 'Weight recorded successfully!');
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 glass-panel rounded-xl p-5 animate-fade-in">
-      <h3 className="text-lg font-semibold">Record Weight</h3>
+      <h3 className="text-lg font-semibold">{editingRecord ? 'Edit Weight Record' : 'Record Weight'}</h3>
       
       <div className="grid gap-2">
         <Label htmlFor="weight">Weight (kg)</Label>
@@ -78,6 +94,7 @@ export const WeightInput: React.FC<WeightInputProps> = ({ onAddWeight }) => {
                 setCalendarOpen(false);
               }}
               initialFocus
+              className="pointer-events-auto"
             />
           </PopoverContent>
         </Popover>
@@ -94,8 +111,17 @@ export const WeightInput: React.FC<WeightInputProps> = ({ onAddWeight }) => {
       </div>
       
       <Button type="submit" className="w-full">
-        <Plus className="w-4 h-4 mr-2" />
-        Record Weight
+        {editingRecord ? (
+          <>
+            <Edit className="w-4 h-4 mr-2" />
+            Update Weight
+          </>
+        ) : (
+          <>
+            <Plus className="w-4 h-4 mr-2" />
+            Record Weight
+          </>
+        )}
       </Button>
     </form>
   );
