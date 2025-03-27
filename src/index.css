@@ -99,19 +99,19 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl;
+    @apply text-3xl md:text-5xl;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
+    @apply text-2xl md:text-4xl;
   }
 
   h3 {
-    @apply text-2xl md:text-3xl;
+    @apply text-xl md:text-3xl;
   }
 
   h4 {
-    @apply text-xl md:text-2xl;
+    @apply text-lg md:text-2xl;
   }
 
   p {
@@ -125,11 +125,11 @@
   }
 
   .app-container {
-    @apply max-w-screen-xl mx-auto px-4 md:px-8;
+    @apply max-w-screen-xl mx-auto px-3 sm:px-4 md:px-8;
   }
 
   .section-padding {
-    @apply py-12 md:py-16;
+    @apply py-8 md:py-16;
   }
 
   .page-transition {
@@ -151,6 +151,19 @@
   .badge {
     @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary/10 text-primary hover:bg-primary/20;
   }
+  
+  .mobile-bottom-safe {
+    @apply pb-20 md:pb-0;
+  }
+  
+  .mobile-container {
+    @apply px-4 md:px-8 mx-auto;
+  }
+  
+  /* Touch-friendly buttons for mobile */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
 }
 
 @layer utilities {
@@ -161,4 +174,25 @@
   .text-pretty {
     text-wrap: pretty;
   }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+  
+  .no-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Overwrite App.css defaults for mobile */
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+input:focus, 
+textarea:focus, 
+select:focus {
+  font-size: 16px; /* Prevents iOS zoom on input focus */
 }
